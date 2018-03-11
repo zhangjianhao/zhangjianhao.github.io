@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="张建浩的博客">
+    <meta name="keyword"  content="张建浩 博客 java Android 程序员">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          张建浩的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite-url/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/header_img/home-bg.jpg')
+            /*config*/
+        
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="site-heading">
+                        <span style="font-size:70px">一个技术宅的自我修养</span>
+                        <!--<hr class="small">-->
+                        <span class="subheading">幸福其实很简单，有你有事做，有所期待</span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">一个技术宅的自我修养</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                  <li>
+                      <a href="/">Home</a>
+                  </li>
+
+                  
+
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/archive/">Archives</a>
+                      </li>
+                      
+                  
+
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/tags/">Tags</a>
+                      </li>
+                      
+                  
+
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/about/">About</a>
+                      </li>
+                      
+                  
+
+
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="http://45.32.50.134:8080/2017/03/23/lua-Lua%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">
+        <h2 class="post-title">
+            一小时入门Lua基本语法
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            lua 简介 Lua 是一个小巧的脚本语言。 其设计目的是为了嵌入应用程序中，从而为应用程序提供灵活的扩展和定制功能。Lua由标准C编写而成，几乎在所有操作系统和平台上都可以编译，运行。Lua并没有提 ......
+        </div>
+    </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2017-03-23 00:24:00
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Lua" title="Lua">Lua</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+        <a href="/2017/03/18/hexo-theme-beantech/">
+            <h2 class="post-title">
+                [Hexo] Theme BeanTech
+            </h2>
+            <h3 class="post-subtitle">
+                This is hexo theme Demo.
+            </h3>
+            <div class="post-content-preview">
+                
+Ported Theme of Hux Blog, Thank Huxpro for designing such a flawless theme.
+This BeanTech theme created by YuHsuan modified from the original Porter Kaijun
+
+
+
+
+Usage
+
+I publish the whole project f......
+            </div>
+        </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2017-03-18 10:51:24
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Hexo" title="Hexo">Hexo</a>
+            
+              <a href="/tags/#Blog" title="Blog">Blog</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="http://45.32.50.134:8080/2016/08/25/android-%E6%BA%90%E7%A0%81%E5%AF%BC%E5%85%A5as/">
+        <h2 class="post-title">
+            Android Framework分析之路——如何将源码导入android studio
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            虽然去年就曾编译过Android源码，不过那时知识储备还不太够，很多东西看不太懂，也可能没有选对方法和Android源码的版本，以前编译的是5.0的版本。个人认为低版本的源码量较少，容易分析。高版本代 ......
+        </div>
+    </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2016-08-25 00:34:08
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Android" title="Android">Android</a>
+            
+              <a href="/tags/#Android Framework" title="Android Framework">Android Framework</a>
+            
+              <a href="/tags/#Android Studio" title="Android Studio">Android Studio</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+        <a href="/2016/08/23/hexo+github-pages-搭建个人博客/">
+            <h2 class="post-title">
+                hexo+github pages 搭建个人博客
+            </h2>
+            <h3 class="post-subtitle">
+                
+            </h3>
+            <div class="post-content-preview">
+                [TOC]
+本文以ubuntu系统为例：介绍个人站点的搭建过程
+Node.js 安装
+由于Hexo基于Node,所以需要先下载nodejs,nodejs可以去Nodejs官网下载最新的安装包安装（推荐)
+当然也可以直接在shell中安装
+123$ sudo add-apt-repository ppa:chris-lea/node.js$ sudo apt-get update$ sudo ......
+            </div>
+        </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2016-08-23 00:12:00
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#hexo" title="hexo">hexo</a>
+            
+              <a href="/tags/#个人博客搭建" title="个人博客搭建">个人博客搭建</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+        <a href="/2016/08/23/最长公共子序列/">
+            <h2 class="post-title">
+                最长公共子序列计算
+            </h2>
+            <h3 class="post-subtitle">
+                
+            </h3>
+            <div class="post-content-preview">
+                最长公共子序列计算步骤：
+第一步：先计算最长公共子序列的长度。
+第二步：根据长度，然后通过回溯求出最长公共子序列。
+现有两个序列X={x1,x2,x3，…xi}，Y={y1,y2,y3，…，yi}，
+一共有两种情况，一种是
+x1 = = y1,则长度为lcs({x2,x3,x4…xi},{y2,y3，…，yi})+1
+若不等，则递归计算取
+lcs({x1,x3,x4…xi},{y2,y3，…......
+            </div>
+        </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2016-08-23 00:12:00
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#算法" title="算法">算法</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="http://45.32.50.134:8080/2016/08/22/Android7.0%E6%96%B0%E7%89%B9%E6%80%A7/">
+        <h2 class="post-title">
+            Android7.0新特性
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            注：本内容来源于google androd官方文档 1.多窗口支持在 Android N 中，我们为该平台引入了一个新的而且非常需要的多任务处理功能 — 多窗口支持。现在，用户可以一次在屏幕上打开 ......
+        </div>
+    </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2016-08-22 20:07:00
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Android" title="Android">Android</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="http://45.32.50.134:8080/2016/08/22/Android7.0%E6%96%B0%E7%89%B9%E6%80%A7/">
+        <h2 class="post-title">
+            跟踪源码分析Android事件传递机制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文主要针对Android2.2源码进行分析，之所以会选择2.2的源码是因为低版本的系统代码量较少，使我们可以专注于逻辑的分析及系统实现，避免陷入只见树木不见森林之中。 本文章只做笔记之用，更详细 ......
+        </div>
+    </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2015-10-25 22:14:28
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Android" title="Android">Android</a>
+            
+              <a href="/tags/#源码分析" title="源码分析">源码分析</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+        <a href="/2015/10/25/十大排序算法汇总/">
+            <h2 class="post-title">
+                十大排序算法汇总
+            </h2>
+            <h3 class="post-subtitle">
+                
+            </h3>
+            <div class="post-content-preview">
+                冒泡排序
+
+算法过程：
+
+
+比较相邻的元素。如果第一个比第二个大，就交换他们两个。
+对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。
+针对所有的元素重复以上的步骤，除了最后一个。
+持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。
+
+
+
+时间复杂度： 平均时间复杂度为 O( n^2 ),最坏时间复杂度为 O(n^2)
+
+
+......
+            </div>
+        </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2015-10-25 22:14:28
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#算法" title="算法">算法</a>
+            
+              <a href="/tags/#排序" title="排序">排序</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+</ul>
+
+
+                <!-- 如果开启评论功能 -->
+                
+            </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+            
+            <a href="/tags/#Android" title="Android" rel="3">Android</a>
+            
+        
+            
+            <a href="/tags/#Android Framework" title="Android Framework" rel="1">Android Framework</a>
+            
+        
+            
+            <a href="/tags/#Android Studio" title="Android Studio" rel="1">Android Studio</a>
+            
+        
+            
+            <a href="/tags/#hexo" title="hexo" rel="1">hexo</a>
+            
+        
+            
+            <a href="/tags/#个人博客搭建" title="个人博客搭建" rel="1">个人博客搭建</a>
+            
+        
+            
+            <a href="/tags/#Hexo" title="Hexo" rel="1">Hexo</a>
+            
+        
+            
+            <a href="/tags/#Blog" title="Blog" rel="1">Blog</a>
+            
+        
+            
+            <a href="/tags/#Lua" title="Lua" rel="1">Lua</a>
+            
+        
+            
+            <a href="/tags/#算法" title="算法" rel="2">算法</a>
+            
+        
+            
+            <a href="/tags/#源码分析" title="源码分析" rel="1">源码分析</a>
+            
+        
+            
+            <a href="/tags/#排序" title="排序" rel="1">排序</a>
+            
+        
+    </div>
+</section>
+
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
+
+        
+            <img id = "avatar_pic" src="/img/head.jpg" />
+        
+
+        
+            <p>Hi, I&#39;m 张建浩</p>
+        
+
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+                <li>
+                    <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+                <li>
+                    <a target="_blank" href="https://www.zhihu.com/people/zjianhao">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa  fa-stack-1x fa-inverse">知</i>
+                        </span>
+                    </a>
+                </li>
+            
+
+            
+                <li>
+                    <a target="_blank" href="http://weibo.com/3508883382">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+
+            
+
+            
+                <li>
+                    <a target="_blank"  href="https://github.com/zhangjianhao">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+                <li>
+                    <a target="_blank"  href="https://www.linkedin.com/in/zhangjianhao">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</section>
+        <hr>
+    
+        
+  <h5>RECENT POSTS</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/2017/03/23/一小时入门Lua基本语法/">一小时入门Lua基本语法</a>
+        </li>
+      
+        <li>
+          <a href="/2017/03/18/hexo-theme-beantech/">[Hexo] Theme BeanTech</a>
+        </li>
+      
+        <li>
+          <a href="/2016/08/25/Android Framework分析之路——如何将源码导入android studio/">Android Framework分析之路——如何将源码导入android studio</a>
+        </li>
+      
+        <li>
+          <a href="/2016/08/23/hexo+github-pages-搭建个人博客/">hexo+github pages 搭建个人博客</a>
+        </li>
+      
+        <li>
+          <a href="/2016/08/23/最长公共子序列/">最长公共子序列计算</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        <hr>
+    
+        <!-- Friends Blog -->
+
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+
+    
+        <li><a href="http://blog.csdn.net/u013454746" target="_blank">csdn</a></li>
+    
+        <li><a href="https://github.com/zhangjianhao" target="_blank">github</a></li>
+    
+        <li><a href="https://weibo.com/3508883382/profile" target="_blank">weibo</a></li>
+    
+</ul>
+
+        <hr>
+    
+        
+    <h5>ARCHIVES</h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+
+        <hr>
+    
+        <!-- Categories -->
+
+    <h5>categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">1</span></li></ul>
+    </div>
+
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/zjianhao">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/3508883382">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangjianhao">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/zhangjianhao">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 张建浩 2018
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite-url/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://yoursite-url/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
