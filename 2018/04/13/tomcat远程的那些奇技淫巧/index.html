@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          一小时入门Lua基本语法 - 一个技术宅的自我修养
+          tomcat远程的那些奇技淫巧 - 一个技术宅的自我修养
         
     </title>
 
-    <link rel="canonical" href="http://yoursite-url/2017/03/23/一小时入门Lua基本语法/">
+    <link rel="canonical" href="http://yoursite-url/2018/04/13/tomcat远程的那些奇技淫巧/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -70,7 +70,7 @@
     header.intro-header{
         
            
-            background-image: url('Demo.png')
+                background-image: url('/img/Demo.png')
             
             /*post*/
         
@@ -89,14 +89,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Lua" title="Lua">Lua</a>
+                              <a class="tag" href="/tags/#web" title="web">web</a>
+                            
+                              <a class="tag" href="/tags/#tomcat" title="tomcat">tomcat</a>
                             
                         </div>
-                        <span style="font-size:70px">一小时入门Lua基本语法</span>
-                        <h2 class="subheading"></h2>
+                        <span style="font-size:70px">tomcat远程的那些奇技淫巧</span>
+                        <h2 class="subheading">一起来围观吧</h2>
                         <span class="meta">
                             Posted by 张建浩 on
-                            2017-03-23 00:24:00
+                            2018-04-13 22:01:09
                         </span>
                     </div>
                 
@@ -221,20 +223,104 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                lua 简介 Lua 是一个小巧的脚本语言。 其设计目的是为了嵌入应用程序中，从而为应用程序提供灵活的扩展和定制功能。Lua由标准C编写而成，几乎在所有操作系统和平台上都可以编译，运行。Lua并没有提 ...
+                <blockquote>
+<p>在日常开发中，经常涉及到对于远程的tomcat的操作，对于线上环境中出现的问题，自身环境有时难以复现，这就需要我们决胜bug于千里之外，快速定位问题，解决问题，下面就和小伙伴们聊一聊关于tomcat远程操作的一些常用技巧。</p>
+</blockquote>
+<h3><span id="技能一远程调试">技能一：远程调试</span></h3>
+<hr>
+<p>如何进行远程调试呢？idea和eclipse都支持远程调试，下面以idea为例，介绍如何进行远程调试</p>
+<ol>
+<li>配置tomcat/bin/catalina.sh文件</li>
+</ol>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CATALINA_OPTS=<span class="string">"-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,suspend=n,server=y"</span></span><br></pre></td></tr></table></figure>
+<p>然后重启tomcat</p>
+<ol start="2">
+<li>idea配置<br>
+<img src="65C77AD0-EA82-4F77-A74C-711A3D45206B.png" alt="嗯！我只是一个图片"><br>
+<img src="E15B43CC-96A1-47EA-B4B4-DF5DFE88201D.png" alt="嗯！我只是一个图片"></li>
+</ol>
+<p><img src="1ECD5662-AB19-47EE-BFD3-7782A07C303D.png" alt="嗯！我只是一个图片"><br>
+这里的debug端口填写之前配置的8000，传输方式为socket<br>
+<img src="C7518AE1-692C-42C1-9C98-A10B2E6C09A3.png" alt="嗯！我只是一个图片"></p>
+<p>恩，然后设置好断点之后就可以愉快的远程调试了😀</p>
+<h3><span id="技能二远程部署">技能二：远程部署</span></h3>
+<blockquote>
+<p>在以前我们部署项目是怎么部署的呢？通常是打个war包，把war包通过scp命令或者xshell上传到远程服务器上去，然后放在tomcat目录，然后重启tomcat，有了远程部署，我们只需要一键就可以完成以上操作</p>
+</blockquote>
+<p>远程部署有两种方式，一种是用maven做项目管理，这时候我们可以借助于maven插件tomcat-maven-plugin来完成web项目的自动部署，还可以借助于idea自带的sftp文件上传功能，来上传需要部署的web项目。</p>
+<h4><span id="借助于maven插件">借助于maven插件</span></h4>
+<ol>
+<li>部署tomcat manager项目</li>
+</ol>
+<p>tomcat默认webapps下面是有manager这个项目的</p>
+<p>编辑conf/tomcat-user.xml文件,最后面加入以下配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-script"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-jmx"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-status"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin-gui"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"admin-gui,manager-gui,manager-script,manager-status"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tomcat-users</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>重启tomcat，访问manager项目</li>
+</ol>
+<p>重启tomcat后，在浏览器访问：<a href="http://ip/manager/html%E8%BF%99%E4%B8%AA%E5%9C%B0%E5%9D%80%EF%BC%8C%E4%BC%9A%E5%BC%B9%E5%87%BA%E8%BE%93%E5%85%A5%E7%94%A8%E6%88%B7%E5%90%8D%E5%AF%86%E7%A0%81%E7%9A%84%E5%BC%B9%E7%AA%97%EF%BC%8C%E5%A1%AB%E5%86%99%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81%E4%B8%BAtomcat-user.xml%E6%96%87%E4%BB%B6%E4%B8%AD%E9%85%8D%E7%BD%AE%E7%9A%84admin%E7%94%A8%E6%88%B7%EF%BC%8C%E5%AF%86%E7%A0%81%E4%B8%BAadmin" target="_blank" rel="noopener">http://ip/manager/html这个地址，会弹出输入用户名密码的弹窗，填写的用户名和密码为tomcat-user.xml文件中配置的admin用户，密码为admin</a></p>
+<ol start="3">
+<li>配置maven/conf/settings.xml</li>
+</ol>
+<p>在servers标签下面配置tomcat的server</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">id</span>&gt;</span>TomcatServer<span class="tag">&lt;/<span class="name">id</span>&gt;</span><span class="comment">&lt;!--配置你的服务器名，打包后将自行部署上去--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span>admin<span class="tag">&lt;/<span class="name">username</span>&gt;</span><span class="comment">&lt;!--刚刚的用户名--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>admin<span class="tag">&lt;/<span class="name">password</span>&gt;</span><span class="comment">&lt;!--刚刚的密码--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>配置web项目的pom.xml文件</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat.maven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat7-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">url</span>&gt;</span>http://188.190.13.51/manager/text<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">server</span>&gt;</span>TomcatServer<span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span>admin<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>admin<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">path</span>&gt;</span>/ItMonitor<span class="tag">&lt;/<span class="name">path</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：server的名称与maven/conf/settings.xml文件中的名称需要保持一致。</p>
+</blockquote>
+<ol start="5">
+<li>部署项目</li>
+</ol>
+<p>最后执行tomcat7:depoly命令便可以将本地的web项目部署到远程服务器的webapps目录下了😘。</p>
+<h4><span id="借助于idea自带sftp">借助于idea自带sftp</span></h4>
+<p>借助于maven插件部署项目只能全部替换部署无法进行增量替换部署，当单个web项目较大时，文件内容较大，全部替换部署就比较慢了，如果需要经常部署，可以借助于下面的方法进行部署可以有选择的部署一部分文件，对于项目中依赖的一些第三方的lib库，通常只需要部署一次，后面便不再需要部署了，没必要每次都重复的传包，文件大，速度又慢。</p>
+<ol>
+<li>首先在目标机器上检查sftp服务是否可用</li>
+</ol>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service vsftpd status</span><br></pre></td></tr></table></figure>
+<p>如果未开启调用 service vsftpd start开启sftp服务</p>
+<ol start="2">
+<li>
+<p>配置catalina.sh文件</p>
+<p>首先检查端口1099是否被占用</p>
+</li>
+</ol>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i tcp:<span class="number">1099</span></span><br></pre></td></tr></table></figure>
+<p>如果没有任何输出表示该端口可用,文件开始部分追加一下内容</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">export CATALINA_OPTS=<span class="string">"<span class="variable">$CATALINA_OPTS</span> -Dcom.sun.management.jmxremote</span></span><br><span class="line"><span class="string">-Dcom.sun.management.jmxremote.port=1099</span></span><br><span class="line"><span class="string">-Dcom.sun.management.jmxremote.ssl=false</span></span><br><span class="line"><span class="string">-Dcom.sun.management.jmxremote.authenticate=false</span></span><br><span class="line"><span class="string">-Djava.rmi.server.hostname=188.190.13.51"</span></span><br><span class="line"></span><br><span class="line">export JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -Dcom.sun.management.jmxremote=</span></span><br><span class="line"><span class="string">-Dcom.sun.management.jmxremote.port=1099</span></span><br><span class="line"><span class="string">-Dcom.sun.management.jmxremote.ssl=false</span></span><br><span class="line"><span class="string">-Dcom.sun.management.jmxremote.authenticate=false"</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>
+<p>配置sftp地址以及目标机器相关信息</p>
+<p><img src="CB001862-F418-448C-A7F1-5BD6066D24D8.png" alt="嗯！我只是一个图片"></p>
+</li>
+<li>
+<p>配置不上传的文件</p>
+<p>忽略部分不必要的lib文件可以加快部署速度</p>
+<p><img src="3322961D-F692-4693-B847-3AA650429FAE.png" alt="嗯！我只是一个图片"></p>
+</li>
+<li>
+<p>配置tomcagt server setting</p>
+<p>jmx端口应该填写catalina.sh配置文件中配置的端口</p>
+<p><img src="B3BCCC03-4025-45B7-98AE-6BE6214F831A.png" alt="嗯！我只是一个图片"></p>
+</li>
+<li>
+<p>部署文件</p>
+<p>​  <img src="062E90A3-A632-4AB4-A356-D6ABD8B6FFA2.png" alt="嗯！我只是一个图片"></p>
+</li>
+</ol>
+
 
 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2018/04/13/tomcat远程的那些奇技淫巧/" data-toggle="tooltip" data-placement="top" title="tomcat远程的那些奇技淫巧">&larr; 上一篇</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2017/03/18/hexo-theme-beantech/" data-toggle="tooltip" data-placement="top" title="[Hexo] Theme BeanTech">下一篇 &rarr;</a>
+                            <a href="/2017/03/23/一小时入门Lua基本语法/" data-toggle="tooltip" data-placement="top" title="一小时入门Lua基本语法">下一篇 &rarr;</a>
                         </li>
                     
                 </ul>
@@ -264,7 +350,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">技能一：远程调试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">技能二：远程部署</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">借助于maven插件</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">借助于idea自带sftp</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -284,7 +370,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Lua" title="Lua">Lua</a>
+                          <a class="tag" href="/tags/#web" title="web">web</a>
+                        
+                          <a class="tag" href="/tags/#tomcat" title="tomcat">tomcat</a>
                         
                     </div>
                 </section>
@@ -317,8 +405,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "http://yoursite-url/2017/03/23/一小时入门Lua基本语法/";
-    var disqus_url = "http://yoursite-url/2017/03/23/一小时入门Lua基本语法/";
+    var disqus_identifier = "http://yoursite-url/2018/04/13/tomcat远程的那些奇技淫巧/";
+    var disqus_url = "http://yoursite-url/2018/04/13/tomcat远程的那些奇技淫巧/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
