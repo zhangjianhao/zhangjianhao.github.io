@@ -133,13 +133,6 @@
 
                       
                       <li>
-                          <a href="/about/">About</a>
-                      </li>
-                      
-                  
-
-                      
-                      <li>
                           <a href="/archive/">Archives</a>
                       </li>
                       
@@ -152,6 +145,13 @@
                       
                   
 
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/about/">About</a>
+                      </li>
                       
                   
 
@@ -215,6 +215,44 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+        <a href="/2018/04/27/nginx+tomcat+redis实现集群负载均衡/">
+            <h2 class="post-title">
+                nginx+tomcat+redis实现集群负载均衡
+            </h2>
+            <h3 class="post-subtitle">
+                我只是一个不起眼的副标题
+            </h3>
+            <div class="post-content-preview">
+                
+在实际应用中，往往会有这样的场景：访问并发量较高，单一web服务器压力过大，需要多个tomcat集群工作。或者利用多个服务器做灾备切换，以保证服务的可靠性，一台机器挂了，整个集群依然能正常对外提供服务。目前针对这样的应用场景，比较普遍的一种方式是利用高性能的nginx做代理服务器，做负载均衡，将请求转发到tomcat集群中的某台机器处理请求，然后再将结果返回。
+
+在读这篇文章之前假设你对n......
+            </div>
+        </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2018-04-27 21:30:56
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#web" title="web">web</a>
+            
+              <a href="/tags/#tomcat" title="tomcat">tomcat</a>
+            
+              <a href="/tags/#nginx" title="nginx">nginx</a>
+            
+              <a href="/tags/#redis" title="redis">redis</a>
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -459,6 +497,37 @@ lcs({x1,x3,x4…xi},{y2,y3，…......
 
 <div class="post-preview">
 
+    <a href="http://45.32.50.134:8080/2016/08/22/Android7.0%E6%96%B0%E7%89%B9%E6%80%A7/">
+        <h2 class="post-title">
+            跟踪源码分析Android事件传递机制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文主要针对Android2.2源码进行分析，之所以会选择2.2的源码是因为低版本的系统代码量较少，使我们可以专注于逻辑的分析及系统实现，避免陷入只见树木不见森林之中。 本文章只做笔记之用，更详细 ......
+        </div>
+    </a>
+      
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 张建浩 on
+            2015-10-25 22:14:28
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Android" title="Android">Android</a>
+            
+              <a href="/tags/#源码分析" title="源码分析">源码分析</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
         <a href="/2015/10/25/十大排序算法汇总/">
             <h2 class="post-title">
                 十大排序算法汇总
@@ -496,37 +565,6 @@ lcs({x1,x3,x4…xi},{y2,y3，…......
               <a href="/tags/#算法" title="算法">算法</a>
             
               <a href="/tags/#排序" title="排序">排序</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="http://45.32.50.134:8080/2016/08/22/Android7.0%E6%96%B0%E7%89%B9%E6%80%A7/">
-        <h2 class="post-title">
-            跟踪源码分析Android事件传递机制
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本文主要针对Android2.2源码进行分析，之所以会选择2.2的源码是因为低版本的系统代码量较少，使我们可以专注于逻辑的分析及系统实现，避免陷入只见树木不见森林之中。 本文章只做笔记之用，更详细 ......
-        </div>
-    </a>
-      
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by 张建浩 on
-            2015-10-25 22:14:28
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Android" title="Android">Android</a>
-            
-              <a href="/tags/#源码分析" title="源码分析">源码分析</a>
             
         </div>
     
@@ -593,15 +631,27 @@ lcs({x1,x3,x4…xi},{y2,y3，…......
             
         
             
+            <a href="/tags/#web" title="web" rel="2">web</a>
+            
+        
+            
+            <a href="/tags/#tomcat" title="tomcat" rel="2">tomcat</a>
+            
+        
+            
+            <a href="/tags/#nginx" title="nginx" rel="1">nginx</a>
+            
+        
+            
+            <a href="/tags/#redis" title="redis" rel="1">redis</a>
+            
+        
+            
+            <a href="/tags/#源码分析" title="源码分析" rel="1">源码分析</a>
+            
+        
+            
             <a href="/tags/#Lua" title="Lua" rel="1">Lua</a>
-            
-        
-            
-            <a href="/tags/#web" title="web" rel="1">web</a>
-            
-        
-            
-            <a href="/tags/#tomcat" title="tomcat" rel="1">tomcat</a>
             
         
             
@@ -610,10 +660,6 @@ lcs({x1,x3,x4…xi},{y2,y3，…......
         
             
             <a href="/tags/#排序" title="排序" rel="1">排序</a>
-            
-        
-            
-            <a href="/tags/#源码分析" title="源码分析" rel="1">源码分析</a>
             
         
     </div>
@@ -695,6 +741,10 @@ lcs({x1,x3,x4…xi},{y2,y3，…......
     <ul>
       
         <li>
+          <a href="/2018/04/27/nginx+tomcat+redis实现集群负载均衡/">nginx+tomcat+redis实现集群负载均衡</a>
+        </li>
+      
+        <li>
           <a href="/2018/04/13/tomcat远程的那些奇技淫巧/">tomcat远程的那些奇技淫巧</a>
         </li>
       
@@ -708,10 +758,6 @@ lcs({x1,x3,x4…xi},{y2,y3，…......
       
         <li>
           <a href="/2016/08/25/Android Framework分析之路——如何将源码导入android studio/">Android Framework分析之路——如何将源码导入android studio</a>
-        </li>
-      
-        <li>
-          <a href="/2016/08/23/hexo+github-pages-搭建个人博客/">hexo+github pages 搭建个人博客</a>
         </li>
       
     </ul>
@@ -738,7 +784,7 @@ lcs({x1,x3,x4…xi},{y2,y3，…......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li></ul>
     </div>
 
         <hr>
@@ -747,7 +793,7 @@ lcs({x1,x3,x4…xi},{y2,y3，…......
 
     <h5>categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/集群，负载均衡/">集群，负载均衡</a><span class="category-list-count">1</span></li></ul>
     </div>
 
         <hr>

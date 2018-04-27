@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="张建浩的博客">
+    <meta name="keyword"  content="张建浩 博客 java Android 程序员">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          nginx+tomcat+redis实现集群负载均衡 - 一个技术宅的自我修养
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite-url/2018/04/27/nginx+tomcat+redis实现集群负载均衡/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+           
+                background-image: url('/img/Demo.png')
+            
+            /*post*/
+        
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#web" title="web">web</a>
+                            
+                              <a class="tag" href="/tags/#tomcat" title="tomcat">tomcat</a>
+                            
+                              <a class="tag" href="/tags/#nginx" title="nginx">nginx</a>
+                            
+                              <a class="tag" href="/tags/#redis" title="redis">redis</a>
+                            
+                        </div>
+                        <span style="font-size:70px">nginx+tomcat+redis实现集群负载均衡</span>
+                        <h2 class="subheading">我只是一个不起眼的副标题</h2>
+                        <span class="meta">
+                            Posted by 张建浩 on
+                            2018-04-27 21:30:56
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">一个技术宅的自我修养</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                  <li>
+                      <a href="/">Home</a>
+                  </li>
+
+                  
+
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/archive/">Archives</a>
+                      </li>
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/tags/">Tags</a>
+                      </li>
+                      
+                  
+
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/about/">About</a>
+                      </li>
+                      
+                  
+
+                      
+                  
+
+
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>在实际应用中，往往会有这样的场景：访问并发量较高，单一web服务器压力过大，需要多个tomcat集群工作。或者利用多个服务器做灾备切换，以保证服务的可靠性，一台机器挂了，整个集群依然能正常对外提供服务。目前针对这样的应用场景，比较普遍的一种方式是利用高性能的nginx做代理服务器，做负载均衡，将请求转发到tomcat集群中的某台机器处理请求，然后再将结果返回。</p>
+</blockquote>
+<p>在读这篇文章之前假设你对nginx有了一定的了解，也用过redis。</p>
+<h2><span id="ngxin代理">ngxin代理</span></h2>
+<blockquote>
+<p>Nginx是一款<a href="https://baike.baidu.com/item/%E8%BD%BB%E9%87%8F%E7%BA%A7/10002835" target="_blank" rel="noopener">轻量级</a>的<a href="https://baike.baidu.com/item/Web/150564" target="_blank" rel="noopener">Web</a> 服务器/<a href="https://baike.baidu.com/item/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86" target="_blank" rel="noopener">反向代理</a>服务器及<a href="https://baike.baidu.com/item/%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6" target="_blank" rel="noopener">电子邮件</a>（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。其特点是占有内存少，<a href="https://baike.baidu.com/item/%E5%B9%B6%E5%8F%91" target="_blank" rel="noopener">并发</a>能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、<a href="https://baike.baidu.com/item/%E4%BA%AC%E4%B8%9C" target="_blank" rel="noopener">京东</a>、<a href="https://baike.baidu.com/item/%E6%96%B0%E6%B5%AA" target="_blank" rel="noopener">新浪</a>、<a href="https://baike.baidu.com/item/%E7%BD%91%E6%98%93" target="_blank" rel="noopener">网易</a>、<a href="https://baike.baidu.com/item/%E8%85%BE%E8%AE%AF" target="_blank" rel="noopener">腾讯</a>、<a href="https://baike.baidu.com/item/%E6%B7%98%E5%AE%9D" target="_blank" rel="noopener">淘宝</a>等。————来源于百度百科。</p>
+</blockquote>
+<h3><span id="什么是正向代理">什么是正向代理？</span></h3>
+<p>通常一台机器借助于一台跳板机访问另外另一台机器，这台跳板机我们就称之为代理服务器。比如，我们访问不了google,但我们拥有一台国外的服务器B，我们可以访问这台服务器B，服务器B可以访问google。我们就可以借助于这台机器做代理，来访问google。之所以为称为正向，是因为我们自己的机器需要去设置代理与代理服务器建立连接组成一个局域网，让代理服务器代理我们的出入流量，我们与代理服务器交互，把网络请求都交给代理服务器，代理服务器请求资源获取响应后，将响应的结果返回给我们。比如我现在连接的wifi，我们也可以为其设置代理，指定要连接代理服务器的地址和端口，便可以将请求都转发到代理服务器。</p>
+<p><img src="B892048B-FF7E-4A9F-B7D2-A6199585BC41.png" alt="嗯！我只是一个图片"></p>
+<h3><span id="什么是反向代理">什么是反向代理？</span></h3>
+<p>反向代理与正向代理最大的区别在于，反向代理服务器于目标服务器组成一个局域网，客户机不需要设置本地代理，只需要访问代理服务器就可以访问到目标资源。比如在内网搭建了一个集群的服务器，出于安全原因，不方便直接对外部提供服务。需要一台代理机器为其提供服务，外网用户直接访问该代理服务器就可以直接访问到内网的资源。</p>
+<p>关于正反向代理的区别，网络上看到一张图，非常直观的表现了正反向代理的本质区别。</p>
+<p><img src="3EEFDF9C-F965-4F68-9A7E-75C8C299E222.png" alt="嗯！我只是一个图片"></p>
+<h2><span id="redis实现多tomcat-session共享">redis实现多tomcat session共享</span></h2>
+<blockquote>
+<p>redis是一个key-value<a href="https://baike.baidu.com/item/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">存储系统</a>。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(<a href="https://baike.baidu.com/item/%E9%93%BE%E8%A1%A8" target="_blank" rel="noopener">链表</a>)、set(集合)、zset(sorted set --有序集合)和hash（哈希类型）。这些<a href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B" target="_blank" rel="noopener">数据类型</a>都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步 —————————来源于《百度百科》</p>
+</blockquote>
+<p>嗯，百科说了这么多，好像有点懵逼，其实就是一句话，redis是一个分布式的内存数据库。</p>
+<p>首先要安装redis，不过安装就不想说了，吧啦吧啦，太多了，大多数软件安装都是一个套路，下源码./configure</p>
+<p>然后：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<h2><span id="tomcat配置redis管理session">tomcat配置redis管理session</span></h2>
+<p>目前github有一个开源项目提供了redis管理tomcat的session的方案，需要先下载项目，自己编译jar包。</p>
+<p>项目地址：<a href="https://github.com/jcoleman/tomcat-redis-session-manager" target="_blank" rel="noopener">https://github.com/jcoleman/tomcat-redis-session-manager</a></p>
+<p>不过项目比较老了不支持tomcat8，作者已经不再维护了。</p>
+<p>不过我们也可以编写自己的tomcat session管理器，将session存入redis。实现多个tomcat的session共享。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Context</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Default set of monitored resources --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">WatchedResource</span>&gt;</span>WEB-INF/web.xml<span class="tag">&lt;/<span class="name">WatchedResource</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Uncomment this to disable session persistence across Tomcat restarts --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">Manager</span> <span class="attr">className</span>=<span class="string">"com.orangefunction.tomcat.redissessions.RedisSessionManager"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">host</span>=<span class="string">"localhost"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">port</span>=<span class="string">"6379"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">database</span>=<span class="string">"0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">maxInactiveInterval</span>=<span class="string">"60"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Uncomment this to enable Comet connection tacking (provides events</span></span><br><span class="line"><span class="comment">         on session expiration as well as webapp lifecycle) --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    &lt;Valve className="org.apache.catalina.valves.CometConnectionManagerValve" /&gt;</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>tomcat/lib目录需要放入以下三个包：</p>
+<p>tomcat-redis-session-1.0-SNAPSHOT.jar</p>
+<p>commons-pool2-2.3.jar</p>
+<p>jedis-2.7.2.jar</p>
+<p>重新启动tomcat。此时访问tomcat，编写一个简单的登录的jsp页面</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;form action=<span class="string">"/hello/login"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">    username：&lt;input type=<span class="string">"text"</span> name=<span class="string">"username"</span>/&gt;&lt;br/&gt;</span><br><span class="line">    password：&lt;input type=<span class="string">"password"</span> name=<span class="string">"password"</span>/&gt;&lt;br/&gt;</span><br><span class="line">    &lt;input type=<span class="string">"submit"</span> value=<span class="string">"login"</span>&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>编写一个测试的servlet处理登录请求:</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zjianhao.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/login"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        request.getSession().setAttribute(<span class="string">"username"</span>, request.getParameter(<span class="string">"username"</span>));</span><br><span class="line">        resp.sendRedirect(<span class="string">"index.jsp"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再编写一个跳转的页面index.jsp,打印出session和session中存储的用户名：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h2&gt;Hello World!&lt;/h2&gt;</span><br><span class="line">&lt;%=request.getSession().getId()+<span class="string">":"</span>+request.getSession().getAttribute(<span class="string">"username"</span>)%&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>嗯，此时访问两台不同的tomcat页面，我们会惊喜的发现，session同步了，只要登录了一台，另一台不用登录就可以直接访问了。这样两台tomcat就可以进行无缝切换了。</p>
+<p><img src="964E9A62-1616-4C23-9CDF-9AE24F12ACB8.png" alt="嗯！我只是一个图片"></p>
+<p>在mac上有一个小工具可以查看存储在redis中的数据，借助于他我们可以检验session是否在redis中存储成功</p>
+<p><img src="901DCD12-EE06-44BC-94FC-057FE4007333.png" alt="嗯！我只是一个图片"></p>
+<h2><span id="配置负载均衡">配置负载均衡</span></h2>
+<p>在nginx的http模块中，配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">upstream agentserver &#123;</span><br><span class="line">        server 192.168.5.120:8080 weight=10;</span><br><span class="line">        server 192.168.5.120:10080 weight=10;</span><br><span class="line">    &#125;</span><br><span class="line">server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  agentserver;</span><br><span class="line">        </span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass   http://agentserver;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>upstream可以实现请求的负载均衡，会按照我们设定的权重，将请求分发到设置的server中，交由不同的服务器处理。listen让nginx监听本地80端口，访问本机80端口的请求都会转发到192.168.5.120上面的两个tomcat服务器上去。</p>
+<p>这样我们就用nginx实现了一个反向代理，代理了两个tomcat，并且实现了集群的负载均衡和session共享。</p>
+
+
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/04/13/tomcat远程的那些奇技淫巧/" data-toggle="tooltip" data-placement="top" title="tomcat远程的那些奇技淫巧">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">ngxin代理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">什么是正向代理？</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">什么是反向代理？</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">redis实现多tomcat session共享</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">tomcat配置redis管理session</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">配置负载均衡</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#web" title="web">web</a>
+                        
+                          <a class="tag" href="/tags/#tomcat" title="tomcat">tomcat</a>
+                        
+                          <a class="tag" href="/tags/#nginx" title="nginx">nginx</a>
+                        
+                          <a class="tag" href="/tags/#redis" title="redis">redis</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/u013454746" target="_blank">csdn</a></li>
+                    
+                        <li><a href="https://github.com/zhangjianhao" target="_blank">github</a></li>
+                    
+                        <li><a href="https://weibo.com/3508883382/profile" target="_blank">weibo</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://yoursite-url/2018/04/27/nginx+tomcat+redis实现集群负载均衡/";
+    var disqus_url = "http://yoursite-url/2018/04/27/nginx+tomcat+redis实现集群负载均衡/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/zjianhao">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/3508883382">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangjianhao">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/zhangjianhao">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 张建浩 2018
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite-url/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://yoursite-url/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
