@@ -153,10 +153,6 @@
                   
 
                       
-                      <li>
-                          <a href="/about/">About</a>
-                      </li>
-                      
                   
 
                       
@@ -166,6 +162,10 @@
                       
                   
 
+                      
+                      <li>
+                          <a href="/about/">About</a>
+                      </li>
                       
                   
 
@@ -278,7 +278,7 @@
 <p>动态转发的妙用：</p>
 <p>通过动态转发实现科学上网</p>
 <p>我有一台日本的服务器，他可以访问世界上的任何一个网络。但是我自己的电脑，由于在国内，google我是访问不了的。但是我的日本的服务器可以访问，此时利用动态转发，将我本机的流量转发到日本的服务器来实现科学上网。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh -D 12345 root@45.32.50.134</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ssh -D 12345 root@45.32.50.134</span></span><br></pre></td></tr></table></figure>
 <p>我的chrome浏览器上装了一个代理插件：[SwitchyOmega]<br>
 <img src="5.png" alt="嗯！我只是一个图片"><br>
 通过配置让浏览器的流量都发送到localhost:12345端口，此时我们便可以正常访问google，可以科学上网了。<br>
