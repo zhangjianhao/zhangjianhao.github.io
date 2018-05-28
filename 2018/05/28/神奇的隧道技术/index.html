@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="张建浩的博客">
+    <meta name="keyword"  content="张建浩 博客 java Android 程序员">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          神奇的隧道技术 - 一个技术宅的自我修养
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite-url/2018/05/28/神奇的隧道技术/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+           
+                background-image: url('/img/Demo.png')
+            
+            /*post*/
+        
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#正向隧道" title="正向隧道">正向隧道</a>
+                            
+                              <a class="tag" href="/tags/#反向隧道" title="反向隧道">反向隧道</a>
+                            
+                              <a class="tag" href="/tags/#动态转发" title="动态转发">动态转发</a>
+                            
+                        </div>
+                        <span style="font-size:70px">神奇的隧道技术</span>
+                        <h2 class="subheading">正反向隧道+动态转发</h2>
+                        <span class="meta">
+                            Posted by 张建浩 on
+                            2018-05-28 22:01:00
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">一个技术宅的自我修养</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                  <li>
+                      <a href="/">Home</a>
+                  </li>
+
+                  
+
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/archive/">Archives</a>
+                      </li>
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/about/">About</a>
+                      </li>
+                      
+                  
+
+                      
+                      <li>
+                          <a href="/tags/">Tags</a>
+                      </li>
+                      
+                  
+
+                      
+                  
+
+                      
+                  
+
+
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2><span id="什么是隧道">什么是隧道？</span></h2>
+<p>我们都知道通过ssh命令可以远程连接上一台机器，然后可以对这台机器进行操作。ssh除了用于远程连接外，还具有一个特殊的功能就是——<strong>端口转发</strong> ，它可以将发送到某一个端口的数据转发到另一台机器上的某一个端口，这个特性有点类似于代理，我们也将他称之为ssh tunel(ssh 隧道)。之所以称之为隧道，是因为他在发送端和接收端建立了一条加密的安全的tcp连接，为我们的数据传输提供安全保障。利用隧道技术我们可以突破防火墙的限制，让本身不能直接通讯的机器可以进行通讯，甚至我们还可以借助于隧道技术突破GFW的封锁，实现科学上网。</p>
+<p>好了，听完上面这段话，是不是有了想要了解一下的冲动？</p>
+<p>如果没有。。。。</p>
+<p><img src="1.jpg" alt="嗯！我只是一个图片"></p>
+<p>那你可能不是一个合格的程序员</p>
+<p>好了，让我们赶快来了解一下它是怎么工作的吧！</p>
+<h2><span id="ssh-tunel的工作过程">ssh tunel的工作过程</span></h2>
+<h3><span id="正向隧道">正向隧道</span></h3>
+<p>问题需求：假设有这样一个场景，我在公司内网的一台机器上面部署了一个HTTP服务，他的访问端口是80，ip是：192.168.5.120。如果我现在在正常上班，当然我可以愉快的访问这个ip地址，没有任何阻碍。当我下班，回到家中，突然想起今天还有一件事情没有完成，于是我开心的打开电脑，在浏览器里输入：<a href="http://192.168.5.120" target="_blank" rel="noopener">http://192.168.5.120</a>。当然了我肯定是访问不了的。这时候怎么办？</p>
+<p>你可能会告诉我说：“用VPN啊”。嗯，没问题，vpn可以做到。但是我现在不想用vpn。嗯，不要问我为啥这么任性。那有没有其他解决方案？可以让我像在内网环境中一样，愉快的访问这个地址。</p>
+<p>答案是：正向隧道，或者说本地转发。叫什么名字不重要，不管哪个名字他们都说的是同一个事情。</p>
+<p><strong>前提条件：</strong> 做这件事情之前，我们需要一个跳转机，一个我们可以直接通过ssh 登录上去的，一台对外网开放ssh的机器。比如他的ip是： 220.181.57.216。这台外网机器连接了内网，同时对外开放了ssh端口。</p>
+<p>正向端口转发命令格式：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L &lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt; &lt;SSH hostname&gt;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，我们的命令是这样的：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L <span class="number">10086</span>:<span class="number">192.168</span>.<span class="number">5.120</span>:<span class="number">80</span> root@<span class="number">220.181</span>.<span class="number">57.216</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>10086是我们绑定的本地端口，192.168.5.120:80是我们想要访问的内网中的目标机器。</p>
+</blockquote>
+<p>这时候我们通过访问：<a href="http://localhost:10086" target="_blank" rel="noopener">http://localhost:10086</a> 就相当于访问了http://192.168.5.120:80.</p>
+<p>怎么样，是不是很神奇！<br>
+<img src="2.png" alt="嗯！我只是一个图片"></p>
+<p>上图中，本机的ssh client和远程服务器的ssh server之间建立一条隧道。用户访问10086端口，会将ssh client会将该端口的流量进行加密压缩转发到220.181.57.216上去，220.181.57.216上的ssh server接收到数据，然后再进行解压和解密，然后访问192.168.5.120:80端口。拿到返回数据，在加密传回到ssh client。然后解密，显示数据。</p>
+<p>上述整个流程之间访问机器和目标机器之间并未直接建立连接，而是通过端口转发来达到访问目的。</p>
+<p>常见的类似的需求还有：为了数据库的安全，数据库一般不允许远程连接，只允许本地连接（localhost）</p>
+<p>此时我们可以借助于端口转发，不直接连接远程数据库，来实现对数据库的访问。例如：数据库的访问地址是：192.168.10.10:3306，且只允许localhost访问，我本机的ip是：192.167.10.11 此时我们用数据库连接工具直接连接192.168.10.10:3306是不成功的。</p>
+<p>通过：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L 1234:localhost:3306 root@192.168.10.10</span><br></pre></td></tr></table></figure>
+<p>然后就可以使用localhost:1234访问数据库了。</p>
+<blockquote>
+<p>注意：上面localhost:3306,并不是代表我本机的地址，而是指192.168.10.10:3306。因为限制了只能使用localhost访问，所以不能使用192.168.10.10这个ip地址。</p>
+</blockquote>
+<p>此时两台机器直接不借助与任何跳转机。<br>
+<img src="3.png" alt="嗯！我只是一个图片"></p>
+<h3><span id="反向隧道">反向隧道</span></h3>
+<p>接着上面数据库访问的例子说起，上面通过正向端口转发，突破了数据库只能本地访问的限制。现在假如由于防火墙的原因。192.167.10.11没有开通到192.167.10.10 的ssh访问。而只开通了192.167.10.10-》192.167.10.11的访问权限，那么，正向隧道此时就不管用了。</p>
+<p>此时，我们可以借助于ssh -R命令，来实现反向隧道。</p>
+<p>命令格式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -R 1234:localhost:3306 root@192.168.10.11</span><br></pre></td></tr></table></figure>
+<p>此命令需要在目标机器(192.168.10.10)上执行。而不能在客户机上执行。</p>
+<p>图示如下：<br>
+<img src="4.png" alt="嗯！我只是一个图片"><br>
+上图中的数据流向为：192.168.10.11上的应用将数据发送到1234端口，然后ssh server将数据发送到192.168.10.10上ssh client，ssh client转发到的3306端口。然后ssh client再将返回的数据原路转发回去。</p>
+<p>正向反向的区别在于连接的方向。从ssh client-》ssh server的叫做正向隧道(本地转发)，反之称之为反向隧道或者远程转发</p>
+<h3><span id="动态转发">动态转发</span></h3>
+<p>动态转发与正反向隧道的区别在于动态转发端口不是固定的，而正反向隧道都必须指定一个端口，只能访问某一台机器的特定端口，而动态代理可以将本机的所有流量都通过ssh tunel转发出去。</p>
+<p>命令格式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -D local_port user@ip</span><br></pre></td></tr></table></figure>
+<p>其实动态转发就是socks代理，ssh 支持socks4 和socks5代理。</p>
+<p>动态转发的妙用：</p>
+<p>通过动态转发实现科学上网</p>
+<p>我有一台日本的服务器，他可以访问世界上的任何一个网络。但是我自己的电脑，由于在国内，google我是访问不了的。但是我的日本的服务器可以访问，此时利用动态转发，将我本机的流量转发到日本的服务器来实现科学上网。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ssh -D 12345 root@45.32.50.134</span><br></pre></td></tr></table></figure>
+<p>我的chrome浏览器上装了一个代理插件：[SwitchyOmega]<br>
+<img src="5.png" alt="嗯！我只是一个图片"><br>
+通过配置让浏览器的流量都发送到localhost:12345端口，此时我们便可以正常访问google，可以科学上网了。<br>
+<img src="6.png" alt="嗯！我只是一个图片"></p>
+
+
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/04/27/nginx+tomcat+redis实现集群负载均衡/" data-toggle="tooltip" data-placement="top" title="nginx+tomcat+redis实现集群负载均衡">下一篇 &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">什么是隧道？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">ssh tunel的工作过程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">正向隧道</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">反向隧道</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">动态转发</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#正向隧道" title="正向隧道">正向隧道</a>
+                        
+                          <a class="tag" href="/tags/#反向隧道" title="反向隧道">反向隧道</a>
+                        
+                          <a class="tag" href="/tags/#动态转发" title="动态转发">动态转发</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/u013454746" target="_blank">csdn</a></li>
+                    
+                        <li><a href="https://github.com/zhangjianhao" target="_blank">github</a></li>
+                    
+                        <li><a href="https://weibo.com/3508883382/profile" target="_blank">weibo</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://yoursite-url/2018/05/28/神奇的隧道技术/";
+    var disqus_url = "http://yoursite-url/2018/05/28/神奇的隧道技术/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/zjianhao">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/3508883382">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangjianhao">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/zhangjianhao">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 张建浩 2018
+                    <br>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite-url/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://yoursite-url/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
